@@ -4,7 +4,7 @@
 // - protoc             v4.22.3
 // source: dex.proto
 
-package generated1
+package generated
 
 import (
 	context "context"
