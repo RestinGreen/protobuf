@@ -1,4 +1,4 @@
-module github.com/ResinGreen/protobuf
+module github.com/RestinGreen/protobuf
 
 go 1.20
 
