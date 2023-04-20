@@ -4,7 +4,7 @@
 // - protoc             v4.22.3
 // source: dex.proto
 
-package protobuf
+package generated1
 
 import (
 	context "context"
@@ -35,7 +35,7 @@ func NewDatabaseClient(cc grpc.ClientConnInterface) DatabaseClient {
 
 func (c *databaseClient) GetAllDex(ctx context.Context, in *GetAllDexRequest, opts ...grpc.CallOption) (*GetAllDexResponse, error) {
 	out := new(GetAllDexResponse)
-	err := c.cc.Invoke(ctx, "/protobuf.Database/GetAllDex", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/Database/GetAllDex", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func _Database_GetAllDex_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.Database/GetAllDex",
+		FullMethod: "/Database/GetAllDex",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DatabaseServer).GetAllDex(ctx, req.(*GetAllDexRequest))
@@ -92,7 +92,7 @@ func _Database_GetAllDex_Handler(srv interface{}, ctx context.Context, dec func(
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Database_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "protobuf.Database",
+	ServiceName: "Database",
 	HandlerType: (*DatabaseServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
