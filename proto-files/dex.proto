@@ -2,10 +2,20 @@ syntax = "proto3";
 
 option go_package = "github.com/RestinGreen/protobuf/generated";
 
+message Token {
+  string address = 1;
+  string name = 2;
+  string symbol = 3;
+  int64 decimal = 4;
+}
 
-
-service Database {
-  rpc GetAllDex(GetAllDexRequest) returns (GetAllDexResponse) {}
+message Pair {
+  Token token0 = 1;
+  Token token1 = 2;
+  string address = 3;
+  bytes reserve0 = 4;
+  bytes reserve1 = 5;
+  int64 lastUpdated = 6;
 }
 
 message Dex {
@@ -14,9 +24,19 @@ message Dex {
     int64 numPairs = 3;
 }
 
+service Database {
+  rpc InsertDex(Dex) returns (InsertDexResponse) {}
+  rpc GetAllDex(GetAllDexRequest) returns (GetAllDexResponse) {}
+}
+
+
 message GetAllDexRequest {
 }
 
 message GetAllDexResponse {
   repeated Dex dexs = 1;
+}
+
+message InsertDexResponse {
+
 }
