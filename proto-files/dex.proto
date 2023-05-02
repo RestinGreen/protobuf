@@ -22,6 +22,7 @@ message Dex {
     string factoryAddress = 1;
     string routerAddress = 2;
     int64 numPairs = 3;
+    repeated Pair pairs = 4;
 }
 
 service Database {
@@ -38,5 +39,4 @@ message GetAllDexResponse {
 }
 
 message InsertDexResponse {
-
 }
