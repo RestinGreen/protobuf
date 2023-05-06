@@ -26,8 +26,9 @@ message Dex {
 }
 
 service Database {
-  rpc InsertDex(Dex) returns (InsertDexResponse) {}
+  rpc InsertDex(InsertDexRequest) returns (InsertDexResponse) {}
   rpc GetAllDex(GetAllDexRequest) returns (GetAllDexResponse) {}
+  rpc UpdatePair(UpdatePairRequest) returns (UpdatePairResponse) {}
 }
 
 
@@ -38,5 +39,18 @@ message GetAllDexResponse {
   repeated Dex dexs = 1;
 }
 
+message InsertDexRequest {
+  Dex dex = 1;
+}
 message InsertDexResponse {
+}
+
+message UpdatePairRequest {
+  string address = 1;
+  bytes reserve0 = 2;
+  bytes reserve1 = 3;
+  int64 lastUpdated = 4;
+}
+
+message UpdatePairResponse {
 }
