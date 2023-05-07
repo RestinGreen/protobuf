@@ -29,6 +29,8 @@ service Database {
   rpc InsertDex(InsertDexRequest) returns (InsertDexResponse) {}
   rpc GetAllDex(GetAllDexRequest) returns (GetAllDexResponse) {}
   rpc UpdatePair(UpdatePairRequest) returns (UpdatePairResponse) {}
+  rpc RemovePair(RemovePairRequest) returns (RemovePairResponse) {}
+  rpc RemoveToken(RemoveTokenRequest) returns (RemoveTokenResponse) {}
 }
 
 
@@ -53,4 +55,17 @@ message UpdatePairRequest {
 }
 
 message UpdatePairResponse {
+}
+
+message RemovePairRequest {
+  string address = 1;
+}
+message RemovePairResponse {
+}
+
+message RemoveTokenRequest {
+  string address = 1;
+}
+
+message RemoveTokenResponse{
 }

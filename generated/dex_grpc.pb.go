@@ -25,6 +25,8 @@ type DatabaseClient interface {
 	InsertDex(ctx context.Context, in *InsertDexRequest, opts ...grpc.CallOption) (*InsertDexResponse, error)
 	GetAllDex(ctx context.Context, in *GetAllDexRequest, opts ...grpc.CallOption) (*GetAllDexResponse, error)
 	UpdatePair(ctx context.Context, in *UpdatePairRequest, opts ...grpc.CallOption) (*UpdatePairResponse, error)
+	RemovePair(ctx context.Context, in *RemovePairRequest, opts ...grpc.CallOption) (*RemovePairResponse, error)
+	RemoveToken(ctx context.Context, in *RemoveTokenRequest, opts ...grpc.CallOption) (*RemoveTokenResponse, error)
 }
 
 type databaseClient struct {
@@ -62,6 +64,24 @@ func (c *databaseClient) UpdatePair(ctx context.Context, in *UpdatePairRequest, 
 	return out, nil
 }
 
+func (c *databaseClient) RemovePair(ctx context.Context, in *RemovePairRequest, opts ...grpc.CallOption) (*RemovePairResponse, error) {
+	out := new(RemovePairResponse)
+	err := c.cc.Invoke(ctx, "/Database/RemovePair", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseClient) RemoveToken(ctx context.Context, in *RemoveTokenRequest, opts ...grpc.CallOption) (*RemoveTokenResponse, error) {
+	out := new(RemoveTokenResponse)
+	err := c.cc.Invoke(ctx, "/Database/RemoveToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DatabaseServer is the server API for Database service.
 // All implementations must embed UnimplementedDatabaseServer
 // for forward compatibility
@@ -69,6 +89,8 @@ type DatabaseServer interface {
 	InsertDex(context.Context, *InsertDexRequest) (*InsertDexResponse, error)
 	GetAllDex(context.Context, *GetAllDexRequest) (*GetAllDexResponse, error)
 	UpdatePair(context.Context, *UpdatePairRequest) (*UpdatePairResponse, error)
+	RemovePair(context.Context, *RemovePairRequest) (*RemovePairResponse, error)
+	RemoveToken(context.Context, *RemoveTokenRequest) (*RemoveTokenResponse, error)
 	mustEmbedUnimplementedDatabaseServer()
 }
 
@@ -84,6 +106,12 @@ func (UnimplementedDatabaseServer) GetAllDex(context.Context, *GetAllDexRequest)
 }
 func (UnimplementedDatabaseServer) UpdatePair(context.Context, *UpdatePairRequest) (*UpdatePairResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePair not implemented")
+}
+func (UnimplementedDatabaseServer) RemovePair(context.Context, *RemovePairRequest) (*RemovePairResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemovePair not implemented")
+}
+func (UnimplementedDatabaseServer) RemoveToken(context.Context, *RemoveTokenRequest) (*RemoveTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveToken not implemented")
 }
 func (UnimplementedDatabaseServer) mustEmbedUnimplementedDatabaseServer() {}
 
@@ -152,6 +180,42 @@ func _Database_UpdatePair_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Database_RemovePair_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemovePairRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseServer).RemovePair(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Database/RemovePair",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseServer).RemovePair(ctx, req.(*RemovePairRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Database_RemoveToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatabaseServer).RemoveToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Database/RemoveToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatabaseServer).RemoveToken(ctx, req.(*RemoveTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Database_ServiceDesc is the grpc.ServiceDesc for Database service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -170,6 +234,14 @@ var Database_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdatePair",
 			Handler:    _Database_UpdatePair_Handler,
+		},
+		{
+			MethodName: "RemovePair",
+			Handler:    _Database_RemovePair_Handler,
+		},
+		{
+			MethodName: "RemoveToken",
+			Handler:    _Database_RemoveToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
